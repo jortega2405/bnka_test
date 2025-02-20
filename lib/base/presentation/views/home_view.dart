@@ -11,11 +11,6 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<CityBloc, CityState>(
         builder: (context, state) {
-          if (state.favoriteCities.isEmpty) {
-            return const Center(
-              child: Text('No favorite cities yet'),
-            );
-          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,14 +25,22 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: state.favoriteCities.length,
-                  itemBuilder: (context, index) => CityTile(
-                    city: state.favoriteCities[index],
-                  ),
-                ),
-              ),
+              state.favoriteCities.isEmpty
+                  ? const Center(
+                      child: Text('No hay ciudades favoritas aun'),
+                    )
+                  : Expanded(
+                      child: ListView.separated(
+                        itemCount: state.favoriteCities.length,
+                        itemBuilder: (context, index) => CityTile(
+                          city: state.favoriteCities[index],
+                        ),
+                        separatorBuilder: (context, index) => const Padding(
+                          padding:  EdgeInsets.symmetric(horizontal: 16),
+                          child: Divider(),
+                        ),
+                      ),
+                    ),
             ],
           );
         },

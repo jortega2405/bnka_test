@@ -33,11 +33,15 @@ class CityListView extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
+            child: ListView.separated(
               itemCount: cities.length,
               itemBuilder: (context, index) => CityTile(
                 city: cities[index],
                 onFavorite: () => _handleFavorite(context, cities[index]),
+              ),
+              separatorBuilder: (context, index) => const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Divider(),
               ),
             ),
           ),
