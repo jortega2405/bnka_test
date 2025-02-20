@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bnka_test/auth/presentation/login/views/login_view.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -22,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: BlocConsumer<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state.isSuccess) {
-              Navigator.pushReplacementNamed(context, '/home');
+              Navigator.pushReplacementNamed(context, '/base');
             }
           },
           builder: (context, state) {
