@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bnka_test/core/utils/city_list.dart';
 import 'package:bnka_test/base/data/model/city.dart';
 import 'package:bnka_test/base/presentation/bloc/city/city_bloc.dart';
 import 'package:bnka_test/base/presentation/bloc/tab/bloc/tab_bloc.dart';
 
 class CityListView extends StatelessWidget {
-  final List<City> cities = const [
-    City(name: 'London', country: 'UK', lat: 51.5074, long: -0.1278),
-    City(name: 'Paris', country: 'France', lat: 48.8566, long: 2.3522),
-    City(name: 'New York', country: 'USA', lat: 40.7128, long: -74.0060),
-    City(name: 'Tokyo', country: 'Japan', lat: 35.6895, long: 139.6917),
-    City(name: 'Sydney', country: 'Australia', lat: -33.8688, long: 151.2093),
-  ];
-
   const CityListView({super.key});
 
   @override
@@ -35,9 +28,9 @@ class CityListView extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               itemCount: cities.length,
-              itemBuilder: (context, index) => CityTile(
-                city: cities[index],
-                onFavorite: () => _handleFavorite(context, cities[index]),
+              itemBuilder: (context, index) => _buildCityTile(
+                cities[index],
+                () => _handleFavorite(context, cities[index]),
               ),
               separatorBuilder: (context, index) => const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
@@ -63,27 +56,20 @@ class CityListView extends StatelessWidget {
   }
 }
 
-class CityTile extends StatelessWidget {
-  final City city;
-  final VoidCallback onFavorite;
-
-  const CityTile({super.key, required this.city, required this.onFavorite});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CityBloc, CityState>(builder: (context, state) {
-      final isFavorite = state.favoriteCities.contains(city);
-      return ListTile(
-        leading: const Icon(Icons.location_city),
-        title: Text('${city.name}, ${city.country}'),
-        trailing: IconButton(
-          icon: Icon(
-            isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: isFavorite ? Colors.red : null,
-          ),
-          onPressed: onFavorite,
+BlocBuilder<CityBloc, CityState> _buildCityTile(
+    City city, VoidCallback onFavorite) {
+  return BlocBuilder<CityBloc, CityState>(builder: (context, state) {
+    final isFavorite = state.favoriteCities.contains(city);
+    return ListTile(
+      leading: const Icon(Icons.location_city),
+      title: Text('${city.name}, ${city.country}'),
+      trailing: IconButton(
+        icon: Icon(
+          isFavorite ? Icons.favorite : Icons.favorite_border,
+          color: isFavorite ? Colors.red : null,
         ),
-      );
-    });
-  }
+        onPressed: onFavorite,
+      ),
+    );
+  });
 }

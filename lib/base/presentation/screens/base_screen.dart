@@ -5,12 +5,12 @@ import 'package:bnka_test/base/presentation/views/city_list_view.dart';
 import 'package:bnka_test/base/presentation/bloc/tab/bloc/tab_bloc.dart';
 
 class BaseScreen extends StatelessWidget {
-  final List<Widget> _screens = const [
-    HomeView(),
-    CityListView(),
+  final List<Widget> _screens = [
+    const HomeView(),
+    const CityListView(),
   ];
 
-  const BaseScreen({super.key});
+  BaseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
