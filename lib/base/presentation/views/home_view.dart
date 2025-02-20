@@ -100,29 +100,28 @@ class HomeView extends StatelessWidget {
 
   Widget _buildFavoriteCityList(CityState state) {
     return Expanded(
-      child: ListView.separated(
+      child: ListView.builder(
         itemCount: state.favoriteCities.length,
-        itemBuilder: (context, index) => _buidCityTile(
+        itemBuilder: (context, index) => _buildCityTile(
           context,
           state.favoriteCities[index],
-        ),
-        separatorBuilder: (context, index) => const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Divider(),
         ),
       ),
     );
   }
 
-  Widget _buidCityTile(BuildContext context, City city) {
-    return ListTile(
-      leading: const Icon(Icons.location_city),
-      title: Text('${city.name}, ${city.country}'),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: () => context.read<CityBloc>().add(
-              CityEvent.removeFavorite(city: city),
-            ),
+  Widget _buildCityTile(BuildContext context, City city) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: ListTile(
+        leading: const Icon(Icons.location_city),
+        title: Text('${city.name}, ${city.country}'),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () => context.read<CityBloc>().add(
+                CityEvent.removeFavorite(city: city),
+              ),
+        ),
       ),
     );
   }
